@@ -72,19 +72,3 @@ def test_messages(client):
     assert b"No entries here so far" not in rv.data
     assert b"&lt;Hello&gt;" in rv.data
     assert b"<strong>HTML</strong> allowed here" in rv.data
-
-
-
-'''
-from pathlib import Path
-from project.app import app
-def test_index():
-    tester = app.test_client()
-    response = tester.get("/", content_type="html/text")
-    assert response.status_code == 200
-    assert response.data == b"Hello, World!"
-
-def test_database():
-    init_db()
-    assert Path("flaskr.db").is_file()
-'''

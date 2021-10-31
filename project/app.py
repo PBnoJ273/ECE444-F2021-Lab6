@@ -1,5 +1,7 @@
 import sqlite3
-from flask import Flask, g, render_template, request, session, flash, redirect, url_for
+from flask import Flask, g, render_template, request, session, flash, redirect, url_for, abort
+
+
 
 
 # configuration
@@ -7,6 +9,7 @@ DATABASE = "flaskr.db"
 USERNAME = "admin"
 PASSWORD = "admin"
 SECRET_KEY = "change_me"
+
 
 # create and initialize a new Flask app
 app = Flask(__name__)
@@ -21,6 +24,7 @@ def connect_db():
     rv.row_factory = sqlite3.Row
     return rv
 
+
 # create the database
 def init_db():
     with app.app_context():
@@ -29,11 +33,13 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
+
 # open database connection
 def get_db():
     if not hasattr(g, "sqlite_db"):
         g.sqlite_db = connect_db()
     return g.sqlite_db
+
 
 # close database connection
 @app.teardown_appcontext
@@ -84,12 +90,6 @@ def add_entry():
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('index'))
-
-'''
-@app.route("/")
-def hello():
-    return "Hello, World!"
-'''
 
 if __name__ == "__main__":
     app.run()
